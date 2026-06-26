@@ -1,0 +1,34 @@
+# Databricks specific files
+.databricks/
+.databricks.cfg
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.venv/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# Data files (if any)
+data/
+output/
+
+# Databricks workspace files
+workspace/
