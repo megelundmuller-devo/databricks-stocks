@@ -1,0 +1,40 @@
+resources:
+  jobs:
+    stock_pipeline:
+      name: stock_pipeline
+      schedule:
+        quartz_cron_expression: 17 0 18 * * ?
+        timezone_id: Europe/Copenhagen
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: stage
+          notebook_task:
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/stage_stocks
+            source: WORKSPACE
+        - task_key: bronze
+          depends_on:
+            - task_key: stage
+          notebook_task:
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/bronze_stocks
+            source: WORKSPACE
+        - task_key: silver
+          depends_on:
+            - task_key: bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/silver_stocks
+            source: WORKSPACE
+        - task_key: gold
+          depends_on:
+            - task_key: silver
+          notebook_task:
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/gold_stocks
+            source: WORKSPACE
+        - task_key: predict_xgb
+          depends_on:
+            - task_key: gold
+          notebook_task:
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/predict_tomorrow
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
