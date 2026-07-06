@@ -1,0 +1,28 @@
+resources:
+  jobs:
+    macro_pipeline:
+      name: macro_pipeline
+      schedule:
+        quartz_cron_expression: 25 0 18 * * ?
+        timezone_id: Europe/Copenhagen
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: stage_macro
+          notebook_task:
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/macro/01_stage/stage_macro
+            source: WORKSPACE
+        - task_key: bronze_macro
+          depends_on:
+            - task_key: stage_macro
+          notebook_task:
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/macro/02_bronze/bronze_macro
+            source: WORKSPACE
+        - task_key: silver_macro
+          depends_on:
+            - task_key: bronze_macro
+          notebook_task:
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/macro/03_silver/silver_macro
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
