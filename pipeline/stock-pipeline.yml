@@ -23,18 +23,6 @@ resources:
           notebook_task:
             notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/03_silver/silver_stocks
             source: WORKSPACE
-        - task_key: gold
-          depends_on:
-            - task_key: silver
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/04_gold/gold_stocks
-            source: WORKSPACE
-        - task_key: predict_xgb
-          depends_on:
-            - task_key: gold
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/05_predict/predict_tomorrow
-            source: WORKSPACE
       queue:
         enabled: true
       performance_target: PERFORMANCE_OPTIMIZED

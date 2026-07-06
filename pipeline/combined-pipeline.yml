@@ -7,31 +7,28 @@ resources:
         timezone_id: Europe/Copenhagen
         pause_status: UNPAUSED
       tasks:
-        # --- Stocks ingestion chain ---
-        - task_key: stage_stocks
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/01_stage/stage_stocks
-            source: WORKSPACE
-        - task_key: bronze_stocks
-          depends_on:
-            - task_key: stage_stocks
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/02_bronze/bronze_stocks
-            source: WORKSPACE
-        - task_key: silver_stocks
-          depends_on:
-            - task_key: bronze_stocks
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/03_silver/silver_stocks
-            source: WORKSPACE
+        # Replace the job_id values below with the actual IDs from the Databricks UI:
+        # Workflows → click the job → copy the numeric ID from the URL (/jobs/XXXXX)
+        - task_key: run_stocks_pipeline
+          run_job_task:
+            job_id: 0  # TODO: replace with stock_pipeline job ID
 
-        # Existing stocks gold + predict (unchanged notebooks)
+        - task_key: run_fx_pipeline
+          run_job_task:
+            job_id: 0  # TODO: replace with fx_pipeline job ID
+
+        - task_key: run_macro_pipeline
+          run_job_task:
+            job_id: 0  # TODO: replace with macro_pipeline job ID
+
+        # --- Stocks gold + predict (existing notebooks) ---
         - task_key: gold_stocks
           depends_on:
-            - task_key: silver_stocks
+            - task_key: run_stocks_pipeline
           notebook_task:
             notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/04_gold/gold_stocks
             source: WORKSPACE
+
         - task_key: predict_stocks
           depends_on:
             - task_key: gold_stocks
@@ -39,56 +36,21 @@ resources:
             notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/05_predict/predict_tomorrow
             source: WORKSPACE
 
-        # --- FX ingestion chain ---
-        - task_key: stage_fx
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/fx/01_stage/stage_fx
-            source: WORKSPACE
-        - task_key: bronze_fx
-          depends_on:
-            - task_key: stage_fx
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/fx/02_bronze/bronze_fx
-            source: WORKSPACE
-        - task_key: silver_fx
-          depends_on:
-            - task_key: bronze_fx
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/fx/03_silver/silver_fx
-            source: WORKSPACE
-
-        # --- Macro ingestion chain ---
-        - task_key: stage_macro
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/macro/01_stage/stage_macro
-            source: WORKSPACE
-        - task_key: bronze_macro
-          depends_on:
-            - task_key: stage_macro
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/macro/02_bronze/bronze_macro
-            source: WORKSPACE
-        - task_key: silver_macro
-          depends_on:
-            - task_key: bronze_macro
-          notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/macro/03_silver/silver_macro
-            source: WORKSPACE
-
-        # --- Fan-in: combined gold waits for all three silver layers ---
+        # --- Combined gold + predict ---
         - task_key: gold_combined
           depends_on:
-            - task_key: silver_stocks
-            - task_key: silver_fx
-            - task_key: silver_macro
+            - task_key: gold_stocks
+            - task_key: run_fx_pipeline
+            - task_key: run_macro_pipeline
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/04_gold/gold_combined
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/combined/04_gold/gold_combined
             source: WORKSPACE
+
         - task_key: predict_combined
           depends_on:
             - task_key: gold_combined
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/05_predict/predict_combined
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/combined/05_predict/predict_combined
             source: WORKSPACE
       queue:
         enabled: true
