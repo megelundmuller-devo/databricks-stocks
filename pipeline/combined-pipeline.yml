@@ -21,6 +21,10 @@ resources:
           run_job_task:
             job_id: 0  # TODO: replace with macro_pipeline job ID
 
+        - task_key: run_news_pipeline
+          run_job_task:
+            job_id: 0  # TODO: replace with news_pipeline job ID
+
         # --- Stocks gold + predict (existing notebooks) ---
         - task_key: gold_stocks
           depends_on:
@@ -42,6 +46,7 @@ resources:
             - task_key: gold_stocks
             - task_key: run_fx_pipeline
             - task_key: run_macro_pipeline
+            - task_key: run_news_pipeline
           notebook_task:
             notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/combined/04_gold/gold_combined
             source: WORKSPACE
