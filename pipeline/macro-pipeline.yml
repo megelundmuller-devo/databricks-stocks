@@ -8,6 +8,9 @@ resources:
         pause_status: PAUSED
       tasks:
         - task_key: stage_macro
+          webhook_notifications:
+            on_failure:
+              - id: REPLACE_WITH_NOTIFICATION_DESTINATION_ID
           notebook_task:
             notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/macro/stage_macro
             source: WORKSPACE
