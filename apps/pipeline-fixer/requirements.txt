@@ -1,5 +1,0 @@
-fastapi
-uvicorn[standard]
-anthropic
-httpx
-databricks-sdk

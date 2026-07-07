@@ -1,6 +1,0 @@
-command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
-env:
-  - name: ANTHROPIC_API_KEY
-    valueFrom:
-      secretScope: pipeline-fixer
-      secretKey: anthropic-api-key
