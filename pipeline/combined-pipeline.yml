@@ -28,14 +28,14 @@ resources:
           depends_on:
             - task_key: run_stocks_pipeline
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/04_gold/gold_stocks
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/gold_stocks
             source: WORKSPACE
 
         - task_key: predict_stocks
           depends_on:
             - task_key: gold_stocks
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/05_predict/predict_tomorrow
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/predict_tomorrow
             source: WORKSPACE
 
         # --- Combined gold + predict ---

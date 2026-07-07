@@ -9,19 +9,19 @@ resources:
       tasks:
         - task_key: stage
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/01_stage/stage_stocks
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/stage_stocks
             source: WORKSPACE
         - task_key: bronze
           depends_on:
             - task_key: stage
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/02_bronze/bronze_stocks
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/bronze_stocks
             source: WORKSPACE
         - task_key: silver
           depends_on:
             - task_key: bronze
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/03_silver/silver_stocks
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/stocks/silver_stocks
             source: WORKSPACE
       queue:
         enabled: true

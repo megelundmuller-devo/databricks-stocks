@@ -9,19 +9,19 @@ resources:
       tasks:
         - task_key: stage_fx
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/fx/01_stage/stage_fx
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/fx/stage_fx
             source: WORKSPACE
         - task_key: bronze_fx
           depends_on:
             - task_key: stage_fx
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/fx/02_bronze/bronze_fx
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/fx/bronze_fx
             source: WORKSPACE
         - task_key: silver_fx
           depends_on:
             - task_key: bronze_fx
           notebook_task:
-            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/fx/03_silver/silver_fx
+            notebook_path: /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks/notebooks/fx/silver_fx
             source: WORKSPACE
       queue:
         enabled: true
