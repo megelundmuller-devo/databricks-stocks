@@ -1,22 +1,22 @@
-name: Sync to Databricks
+name: Sync Git Folder
+
+concurrency: prod_environment
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  sync:
+  deploy:
     runs-on: ubuntu-latest
+    name: Update git folder
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
     steps:
-      - name: Pull latest commit into Databricks Git folder
-        run: |
-          response=$(curl -s -w "\n%{http_code}" -X PATCH \
-            "${{ secrets.DATABRICKS_HOST }}/api/2.0/repos/${{ secrets.DATABRICKS_REPO_ID }}" \
-            -H "Authorization: Bearer ${{ secrets.DATABRICKS_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{"branch": "${{ github.ref_name }}"}')
-          http_code=$(echo "$response" | tail -1)
-          body=$(echo "$response" | head -n -1)
-          echo "Response: $body"
-          echo "HTTP status: $http_code"
-          [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ] || exit 1
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - name: Update git folder
+        run: databricks repos update /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks --branch main
