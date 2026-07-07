@@ -10,8 +10,13 @@ jobs:
     steps:
       - name: Pull latest commit into Databricks Git folder
         run: |
-          curl -sf -X PATCH \
+          response=$(curl -s -w "\n%{http_code}" -X PATCH \
             "${{ secrets.DATABRICKS_HOST }}/api/2.0/repos/${{ secrets.DATABRICKS_REPO_ID }}" \
             -H "Authorization: Bearer ${{ secrets.DATABRICKS_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d '{"branch": "${{ github.ref_name }}"}'
+            -d '{"branch": "${{ github.ref_name }}"}')
+          http_code=$(echo "$response" | tail -1)
+          body=$(echo "$response" | head -n -1)
+          echo "Response: $body"
+          echo "HTTP status: $http_code"
+          [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ] || exit 1
