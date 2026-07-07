@@ -7,21 +7,18 @@ resources:
         timezone_id: Europe/Copenhagen
         pause_status: UNPAUSED
       tasks:
-        # Replace the job_id values below with the actual IDs from the Databricks UI:
-        # Workflows → click the job → copy the numeric ID from the URL (/jobs/XXXXX)
         - task_key: run_stocks_pipeline
           run_job_task:
-            job_id: 774386090639988
+            job_id: ${resources.jobs.stock_pipeline.id}
         - task_key: run_fx_pipeline
           run_job_task:
-            job_id: 841588464165726
+            job_id: ${resources.jobs.fx_pipeline.id}
         - task_key: run_macro_pipeline
           run_job_task:
-            job_id: 69987442722954
-
+            job_id: ${resources.jobs.macro_pipeline.id}
         - task_key: run_news_pipeline
           run_job_task:
-            job_id: 1025911522076943
+            job_id: ${resources.jobs.news_pipeline.id}
 
         # --- Stocks gold + predict (existing notebooks) ---
         - task_key: gold_stocks
