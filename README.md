@@ -40,14 +40,10 @@ A Databricks pipeline for processing and analyzing stock data following the meda
 
 ## Deployment
 
-The pipeline is scheduled to run daily at 18:17 Copenhagen time (see `stock-pipeline.yml`).
+The pipeline is scheduled to run daily at 19 Copenhagen time (see `stock-pipeline.yml`).
 
 ## Development
 
 - Add new notebooks to the appropriate layer directory
 - Maintain the numbered prefix convention for clarity
 - Update the pipeline YML when adding new tasks
-
-## License
-
-[Add your license information here]

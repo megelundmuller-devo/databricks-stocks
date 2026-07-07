@@ -83,4 +83,3 @@ Ticker symbols use Yahoo Finance format (e.g., `NOVO-B.CO`, `ASML.AS`). The comp
 - Silver features are prefixed `feat_`; gold lag features are prefixed `prev_feat_`
 - All pipelines use `whenNotMatchedInsertAll` (or `whenMatchedUpdateAll`) merges — safe to re-run
 - `spark.conf.set("spark.sql.ansi.enabled", "false")` is set in silver_stocks to allow division by zero in feature calculations
-- The `combined_pipeline` runs 42 minutes after the last domain pipeline finishes, allowing time for completion
