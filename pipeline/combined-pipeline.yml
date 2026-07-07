@@ -11,19 +11,17 @@ resources:
         # Workflows → click the job → copy the numeric ID from the URL (/jobs/XXXXX)
         - task_key: run_stocks_pipeline
           run_job_task:
-            job_id: 0  # TODO: replace with stock_pipeline job ID
-
+            job_id: 774386090639988
         - task_key: run_fx_pipeline
           run_job_task:
-            job_id: 0  # TODO: replace with fx_pipeline job ID
-
+            job_id: 841588464165726
         - task_key: run_macro_pipeline
           run_job_task:
-            job_id: 0  # TODO: replace with macro_pipeline job ID
+            job_id: 69987442722954
 
         - task_key: run_news_pipeline
           run_job_task:
-            job_id: 0  # TODO: replace with news_pipeline job ID
+            job_id: 1025911522076943
 
         # --- Stocks gold + predict (existing notebooks) ---
         - task_key: gold_stocks

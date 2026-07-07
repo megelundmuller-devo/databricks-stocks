@@ -1,0 +1,10 @@
+bundle:
+  name: databricks-stocks
+
+include:
+  - pipeline/*.yml
+
+targets:
+  prod:
+    workspace:
+      host: https://dbc-7cc4fcfd-8491.cloud.databricks.com

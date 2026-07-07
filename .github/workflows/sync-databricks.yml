@@ -1,0 +1,17 @@
+name: Sync to Databricks
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull latest commit into Databricks Git folder
+        run: |
+          curl -sf -X PATCH \
+            "${{ secrets.DATABRICKS_HOST }}/api/2.0/repos/${{ secrets.DATABRICKS_REPO_ID }}" \
+            -H "Authorization: Bearer ${{ secrets.DATABRICKS_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"branch": "${{ github.ref_name }}"}'
