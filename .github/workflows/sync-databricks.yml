@@ -20,3 +20,7 @@ jobs:
       - uses: databricks/setup-cli@main
       - name: Update git folder
         run: databricks repos update /Workspace/Users/marcus.egelund-muller@devoteam.com/databricks-stocks --branch main
+      - name: Validate bundle
+        run: databricks bundle validate
+      - name: Deploy bundle
+        run: databricks bundle deploy
