@@ -2,7 +2,7 @@
 
 A Databricks pipeline for processing and analyzing stock data following the medallion architecture.
 
-## Repository Structure
+## Repository Structure 
 
 ```
 .
